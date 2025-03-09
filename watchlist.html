@@ -1,0 +1,40 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<div class="container">
+    <h2>Your Watchlist</h2>
+
+    {% if watchlist_items %}
+        <div class="row">
+            <!-- Loop through watchlist items and display them -->
+            {% for listing in watchlist_items %}
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm">
+                        {% if listing.image %}
+                        <!-- Display the listing image -->
+                            <img src="{{ listing.image.url }}" alt="{{ listing.title }}" class="card-img-top" style="height: 250px; object-fit: cover;">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ listing.title }}</h5>
+                            <p class="card-text">{{ listing.description|truncatechars:100 }}</p>
+                            <p><strong>Current Price:</strong> ${{ listing.current_bid }}</p>
+
+                            <div class="d-flex justify-content-between">
+                                <a href="{% url 'listing' listing.id %}" class="btn btn-primary">View Listing</a>
+                                
+                                <!-- Remove from Watchlist Button -->
+                                <form action="{% url 'remove_from_watchlist' listing.id %}" method="POST">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger remove-watchlist-btn">Remove</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>You have no items in your watchlist.</p>
+    {% endif %}
+</div>
+{% endblock %}
