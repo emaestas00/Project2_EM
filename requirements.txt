@@ -1,0 +1,6 @@
+Django>=4.0,<5.0
+gunicorn
+psycopg2-binary  # If using PostgreSQL, otherwise remove
+pillow  # Required for handling image uploads
+django-environ  # For managing environment variables
+whitenoise  # For serving static files in production
